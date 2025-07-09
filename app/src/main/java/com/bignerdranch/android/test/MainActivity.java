@@ -21,11 +21,15 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 if(savedInstanceState==null){
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.left, new LeftFragment())
-                            .replace(R.id.right, new RightFragment())
-                            .addToBackStack(null)
-                            .commit();
+                    FragmentManager fm = getSupportFragmentManager();
+                    if (fm.findFragmentById(R.id.left) == null && fm.findFragmentById(R.id.right) == null) {
+                        FragmentTransaction ft = fm.beginTransaction();
+                        ft.setReorderingAllowed(true);
+                        ft.replace(R.id.left, new LeftFragment());
+                        ft.replace(R.id.right, new RightFragment());
+                        ft.addToBackStack(null);
+                        ft.commit();
+                    }
                 }
             }
         });
